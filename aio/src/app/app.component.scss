@@ -7,3 +7,14 @@
   margin-left: 20px;
   cursor: pointer;
 }
+
+
+.hamburger {
+  transition-duration: 150ms;
+  transition-property: background-color, color;
+  transition-timing-function: ease-in-out;
+  &:hover {
+    background-color: #fdfdfd;
+    color:#00bcd4;
+  }
+}

@@ -1,65 +1,28 @@
-
-/************************************
-
-            Media queries
-
-To use these, put this snippet in the approriate selector:
-
-    @include bp(tiny) {
-        background-color: purple;
-    }
-
-    Replace "tiny" with "medium" or "big" as necessary.
-
-*************************************/
-
-@mixin bp($point) {
-
-  $bp-xsmall: "(min-width: 320px)";
-  $bp-teeny: "(min-width: 480px)";
-  $bp-tiny: "(min-width: 600px)";
-  $bp-small: "(min-width: 650px)";
-  $bp-medium: "(min-width: 800px)";
-  $bp-big: "(min-width: 1000px)";
-
-  @if $point == big {
-    @media #{$bp-big} { @content; }
-  }
-  @else if $point == medium {
-    @media #{$bp-medium} { @content; }
-  }
-  @else if $point == small {
-    @media #{$bp-small}  { @content; }
-  }
-  @else if $point == tiny {
-    @media #{$bp-tiny}  { @content; }
-  }
-  @else if $point == teeny {
-    @media #{$bp-teeny}  { @content; }
-  }
-  @else if $point == xsmall {
-    @media #{$bp-xsmall}  { @content; }
-  }
-}
-
-/************************************/
-
 .vertical-menu {
-  padding-left: 0;
-}
-
-a.vertical-menu {
   color: #545454;
   cursor: pointer;
   display: block;
   padding-bottom: 10px;
   padding-top: 10px;
   padding-right: 10px;
+  padding-left: 10px;
+  width: 100%;
+  box-sizing: border-box;
   text-decoration: none;
   text-align: left;
+  transition-duration: 180ms;
+  transition-property: background-color, color;
+  transition-timing-function: ease-in-out;
+
   &:hover {
-    background-color: #e9e9e9;
-    color:#00bcd4
+    background-color: #f7f7f7;
+    color: #01a6bb;
+    text-shadow: 0px 0px 5px #ffffff;
+  }
+  //icons _within_ nav
+  .material-icons {
+    position: absolute;
+    top: 6px;
   }
 }
 
@@ -72,21 +35,15 @@ a.vertical-menu {
   color: #444;
   cursor: pointer;
   font-size: .85rem;
-  min-width: 200px;
-  padding-left: 10px;
+  width: 100%;
   position: relative;
   text-transform: uppercase;
-}
-
-.material-icons {
-  display: none;
 }
 
 .material-icons.active {
   display: inline-block;
   position: absolute;
   top: 6px;
-  // left: 4px;
 }
 
 .heading-children {
@@ -95,22 +52,77 @@ a.vertical-menu {
 
 .heading-children.active {
   display: block;
+  transition-duration: 180ms;
+  transition-property: display;
+  transition-timing-function: ease-in-out;
 }
-
 
 .heading.selected.level-1,
 .heading-children.selected.level-1 {
   border-left: 3px #00bcd4 solid;
 }
 
-.level-1 {
-  padding-left: 10px;
-}
-
 .level-2 {
   padding-left: 20px;
 }
 
-.level-3 {
-  padding-left: 30px;
+
+// Animations to rotate arrows on heading.
+// Use these or use the transitions immediately below.
+// The difference is that these animations open witha twirl into place
+// because of the selector.
+
+.level-1.active .material-icons, .level-2.active .material-icons  {
+  animation-name: icon-open;
+  animation-duration: 250ms;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
+  animation-fill-mode: forwards;
 }
+
+@keyframes icon-open {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+.level-1:not(.active) .material-icons, .level-2:not(.active) .material-icons {
+  animation-name: icon-close;
+  animation-duration: 250ms;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: backwards; /* Safari 4.0 - 8.0 */
+  animation-fill-mode: backwards;
+}
+
+@keyframes icon-close {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+// Transitions for arrows on headings in nav. These do not
+// twirl into place on page load.
+
+// @mixin rotate($degrees) {
+//     -moz-transform: rotate($degrees);
+//     -webkit-transform: rotate($degrees);
+//     -o-transform: rotate($degrees);
+//     -ms-transform: rotate($degrees);
+//     transform: rotate($degrees);
+//     transition: transform 150ms;
+//     transition-timing-function: ease-in-out;
+// }
+
+// .level-1.active .material-icons, .level-2.active .material-icons {
+//     @include rotate(90deg);
+// }
+
+// .level-1:not(.active) .material-icons, .level-2:not(.active) .material-icons {
+//     @include rotate(0deg);
+// }
